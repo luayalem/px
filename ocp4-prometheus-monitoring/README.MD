@@ -82,8 +82,9 @@
   - Under HTTP, add Prometheus url. The default url is
 __https://<span></span>prometheus-k8s.openshift-monitoring.svc:9091__
   - Under Auth, turn off everything except skip TLS Verify( leave it on).
-  - Under Custom HTTP Header, add the token from step 3 above under value as:
-    - "Bearer YOUR-Prometheus-TOKEN"
+  - Under Custom HTTP Header, add the token from step 3 above:
+    - Header: `Authorization`
+    - Value: `Bearer YOUR-Prometheus-TOKEN`
 
   ![Prometheus Datasource](images/prometheus-datasource.png)
   - Click on Save & Test. If any error is found during authentication you will need to fix that before being able to use Grafana.
