@@ -23,6 +23,44 @@
      - port: px-api
    EOF
    ```
+
+* ## For OCP4.4+ create `Role` and `RoleBinding` for prometheus-k8s in the namespace where PX is running.
+
+    ```
+    cat <<EOF | oc apply -f 
+    kind: Role
+    metadata:
+      name: prometheus-k8s
+      # Namespace where PX is running 
+      namespace: kube-system
+    rules:
+    - apiGroups:
+      - ""
+      resources:
+      - services
+      - endpoints
+      - pods
+      verbs:
+      - get
+      - list
+      - watch
+    ---
+   apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: prometheus-k8s
+      # Namespace where PX is running 
+      namespace: kube-system
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: prometheus-k8s
+    subjects:
+    - kind: ServiceAccount
+      name: prometheus-k8s
+      namespace: openshift-monitoring
+    EOF
+  
 * ## Apply PX rules:
 
      `oc apply -f px-rules.yaml`
@@ -51,6 +89,3 @@ __https://<span></span>prometheus-k8s.openshift-monitoring.svc:9091__
   - Click on Save & Test. If any error is found during authentication you will need to fix that before being able to use Grafana.
 * ## Click on Dashboard, PX dashboards will be listed there
   ![PX Dashboards](images/px-dashboards.png)
-
-
-
