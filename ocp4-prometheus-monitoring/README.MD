@@ -18,7 +18,7 @@
      namespaceSelector:
      # Namespace where PX is running 
        matchNames:
-       - kube-system 
+       - portworx 
      endpoints:
      - port: px-api
    EOF
@@ -32,7 +32,7 @@
     metadata:
       name: prometheus-k8s
       # Namespace where PX is running 
-      namespace: kube-system
+      namespace: portworx
     rules:
     - apiGroups:
       - ""
@@ -50,7 +50,7 @@
     metadata:
       name: prometheus-k8s
       # Namespace where PX is running 
-      namespace: kube-system
+      namespace: portworx
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: Role
@@ -73,10 +73,10 @@
 
   The Grafana instance that is provided with Openshift monitoring stack is read-only. Any dashboard changes will not be persisted once you exit the dashboard, therefore we will our own Grafana instance to visualize PX monitoring. 
 
-     `oc apply -f grafana-deployment.yaml -n kube-system`
+     `oc apply -f grafana-deployment.yaml -n portworx`
 
 * ## Create a route in OCP4.x for the new Grafana
-     `oc apply -f grafana-route.yaml`
+     `oc apply -f grafana-route.yaml -n portworx`
 * ## Open Grafana UI and click on Datasource, select Prometheus and under setting change the following:
 
   - Under HTTP, add Prometheus url. The default url is

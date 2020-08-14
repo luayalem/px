@@ -2,7 +2,6 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: grafana1
-  namespace: kube-system
   labels:
     app: grafana
   annotations:
