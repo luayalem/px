@@ -32,12 +32,15 @@ spec:
     requests:
       storage: 2Gi
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
   namespace: mysql
 spec:
+  selector:
+    matchLabels:
+      app: mysql
   strategy:
     rollingUpdate:
       maxSurge: 1
