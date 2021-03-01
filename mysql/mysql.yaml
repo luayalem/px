@@ -32,53 +32,46 @@ spec:
     requests:
       storage: 2Gi
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+  clusterIP: None
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
-  namespace: mysql
 spec:
   selector:
     matchLabels:
       app: mysql
   strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
-  replicas: 1
+    type: Recreate
   template:
     metadata:
       labels:
         app: mysql
     spec:
-      schedulerName: stork
       containers:
-      - name: mysql
-        image: mysql:5.6.32
-        imagePullPolicy: "IfNotPresent"
-        ports:
-        - containerPort: 5432
+      - image: mysql:5.6
+        name: mysql
         env:
-        - name: MYSQL_USER
-          value: mysql
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-pass
-              key: password.txt
-        - name: MYSQL_DATABASE
-          value: pxdemo
+          # Use secret in real usage
         - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-pass
-              key: password.txt
-        volumeMounts:
-        - mountPath: /var/lib/mysql
+          value: password
+        ports:
+        - containerPort: 3306
           name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
       volumes:
-      - name: mysql
+      - name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: px-mysql-pvc
-
+          claimName: mysql-pv-claim
