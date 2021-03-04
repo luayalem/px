@@ -18,7 +18,7 @@ metadata:
     volume.beta.kubernetes.io/storage-class: px-shared-sc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 2Gi
