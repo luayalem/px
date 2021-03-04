@@ -56,4 +56,5 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: px-shared-vol
+      schedulerName: stork
 
