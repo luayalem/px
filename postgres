@@ -7,9 +7,11 @@ metadata:
     app: postgres
 provisioner: kubernetes.io/portworx-volume
 parameters:
-  repl: "2"
-  priority_io: "high"
+  io_profile: db_remote
+  repl: '2'
+reclaimPolicy: Delete
 allowVolumeExpansion: true
+volumeBindingMode: Immediate
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
