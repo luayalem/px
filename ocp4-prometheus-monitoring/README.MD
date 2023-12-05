@@ -3,7 +3,7 @@
 * ## Create service monitor:
 
    ```
-   cat <<EOF | oc apply -f 
+   cat <<EOF | oc apply -f -
    apiVersion: monitoring.coreos.com/v1
    kind: ServiceMonitor
    metadata:
@@ -27,7 +27,7 @@
 * ## For OCP4.4+ create `Role` and `RoleBinding` for prometheus-k8s in the namespace where PX is running.
 
     ```
-    cat <<EOF | oc apply -f 
+    cat <<EOF | oc apply -f -
     apiVersion: rbac.authorization.k8s.io/v1
     kind: Role
     metadata:
